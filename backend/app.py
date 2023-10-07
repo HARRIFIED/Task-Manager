@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from config import Config  # Import the Config class from config
 from Models.tasks import Task, task_schema
-from Routes.tasks import tasks_bp, add_task_bp , task_bp 
+from Routes.tasks import tasks_bp, add_task_bp , task_bp , update_task_bp, delete_task_bp
 import Models
 db = Models.db
 ma = Models.ma
@@ -32,6 +32,8 @@ initialize_database()
 app.register_blueprint(add_task_bp)
 app.register_blueprint(tasks_bp)
 app.register_blueprint(task_bp)
+app.register_blueprint(update_task_bp)
+app.register_blueprint(delete_task_bp)
 
 # Run the app
 if __name__ == '__main__':

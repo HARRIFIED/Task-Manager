@@ -2,23 +2,85 @@ from flask import jsonify, request
 from Models.tasks import Task, task_schema, tasks_schema
 from Models import db
 
+
 def create_task():
-    title = request.json['title']
-    description = request.json['description']
-    due_date = request.json['due_date']
+    try:
+        title = request.json.get('title')
+        description = request.json.get('description')
+        due_date = request.json.get('due_date')
 
-    new_task = Task(title, description, due_date)
-    db.session.add(new_task)
-    db.session.commit()
+        if not title:
+            return jsonify({"message": "Title is required"}), 400
 
-    return task_schema.jsonify(new_task)
+        new_task = Task(title=title, description=description, due_date=due_date)
+        db.session.add(new_task)
+        db.session.commit()
+
+        return jsonify({"message": "Task created successfully", "data": task_schema.dump(new_task)}), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": "An error occurred while creating the task", "error": str(e)}), 500
+
+
 
 
 def get_tasks():
     all_tasks = Task.query.all()
-    result = tasks_schema.dump(all_tasks)
-    return jsonify(result)
+    serialized_tasks = tasks_schema.dump(all_tasks)
+    
+    return jsonify({"message": "Tasks retrieved successfully", "data": serialized_tasks}), 200
+
 
 def get_task(id):
     task = Task.query.get(id)
-    return task_schema.jsonify(task)
+    
+    if task is None:
+        return jsonify({"message": f"Task with ID {id} not found"}), 404
+
+    return jsonify({"message": "Task found", "data": task_schema.dump(task)}), 200
+
+
+def update_task(id):
+    try:
+        task = Task.query.get(id)
+        
+        if task is None:
+            return jsonify({"message": f"Task with ID {id} not found"}), 404
+
+        title = request.json.get('title')
+        description = request.json.get('description')
+        due_date = request.json.get('due_date')
+
+        if title is not None:
+            task.title = title
+        if description is not None:
+            task.description = description
+        if due_date is not None:
+            task.due_date = due_date
+
+        db.session.commit()
+        return jsonify({
+            "message": f"Task with ID {id} updated successfully", 
+            "data": task_schema.dump(task)
+            }), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": "An error occurred while updating the task", "error": str(e)}), 500
+
+
+def delete_task(id):
+    task = Task.query.get(id)
+    if task:
+        db.session.delete(task)
+        db.session.commit()
+        response_data = {
+            "message": f"Task with title '{task.title}' successfully deleted",
+            "data": None  
+        }
+        return jsonify(response_data), 200
+    else:
+        response_data = {
+            "message": f"Task with ID {id} not found",
+            "data": None
+        }
+        return jsonify(response_data), 404
