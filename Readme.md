@@ -4,6 +4,17 @@
 
 ## Quick Start Using Pipenv
 
+
+``` bash
+# Clone repo
+$ git clone https://github.com/HARRIFIED/Task-Manager.git
+
+
+``` bash
+# enter the backend directory
+$ cd backend
+
+
 ``` bash
 # Activate venv
 $ pipenv shell
