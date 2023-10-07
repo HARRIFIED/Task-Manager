@@ -8,11 +8,14 @@ def create_task():
         title = request.json.get('title')
         description = request.json.get('description')
         due_date = request.json.get('due_date')
+        status = request.json.get('status')
+        priority = request.json.get('priority')
+        tags = request.json.get('tags')
 
         if not title:
             return jsonify({"message": "Title is required"}), 400
 
-        new_task = Task(title=title, description=description, due_date=due_date)
+        new_task = Task(title=title, description=description, due_date=due_date, status=status, priority=priority, tags=tags)
         db.session.add(new_task)
         db.session.commit()
 
@@ -50,6 +53,9 @@ def update_task(id):
         title = request.json.get('title')
         description = request.json.get('description')
         due_date = request.json.get('due_date')
+        status = request.json.get('status')
+        priority = request.json.get('priority')
+        tags = request.json.get('tags')
 
         if title is not None:
             task.title = title
@@ -57,6 +63,12 @@ def update_task(id):
             task.description = description
         if due_date is not None:
             task.due_date = due_date
+        if status is not None:
+            task.status = status
+        if priority is not None:
+            task.priority = priority
+        if tags is not None:
+            task.tags = tags
 
         db.session.commit()
         return jsonify({

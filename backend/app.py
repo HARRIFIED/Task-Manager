@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from flask_migrate import Migrate
+
 from config import Config  # Import the Config class from config
 from Models.tasks import Task, task_schema
 from Routes.tasks import tasks_bp, add_task_bp , task_bp , update_task_bp, delete_task_bp
@@ -18,6 +20,7 @@ app.config.from_object(Config)
 # Initialize extensions``
 db.init_app(app)
 ma.init_app(app)
+migrate = Migrate(app, db)
 
 
 # Database initialization function
