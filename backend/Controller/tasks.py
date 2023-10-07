@@ -1,5 +1,5 @@
 from flask import jsonify, request
-from Models.tasks import Task, task_schema
+from Models.tasks import Task, task_schema, tasks_schema
 from Models import db
 
 def create_task():
@@ -12,3 +12,13 @@ def create_task():
     db.session.commit()
 
     return task_schema.jsonify(new_task)
+
+
+def get_tasks():
+    all_tasks = Task.query.all()
+    result = tasks_schema.dump(all_tasks)
+    return jsonify(result)
+
+def get_task(id):
+    task = Task.query.get(id)
+    return task_schema.jsonify(task)
