@@ -1,9 +1,13 @@
 from flask import jsonify, request
 from Models.tasks import Task, task_schema, tasks_schema
 from Models import db
+from middleware.auth import authentication_required 
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
-
+@jwt_required()
+@authentication_required
 def create_task():
+    client_id = get_jwt_identity()
     try:
         title = request.json.get('title')
         description = request.json.get('description')
@@ -11,11 +15,12 @@ def create_task():
         status = request.json.get('status')
         priority = request.json.get('priority')
         tags = request.json.get('tags')
+        user_id = client_id
 
         if not title:
             return jsonify({"message": "Title is required"}), 400
 
-        new_task = Task(title=title, description=description, due_date=due_date, status=status, priority=priority, tags=tags)
+        new_task = Task(title=title, description=description, due_date=due_date, status=status, priority=priority, tags=tags, user_id=user_id)
         db.session.add(new_task)
         db.session.commit()
 
@@ -25,30 +30,45 @@ def create_task():
         return jsonify({"message": "An error occurred while creating the task", "error": str(e)}), 500
 
 
-
-
+@jwt_required()
+@authentication_required
 def get_tasks():
-    all_tasks = Task.query.all()
-    serialized_tasks = tasks_schema.dump(all_tasks)
-    
+    # Get the user ID of the authenticated client
+    client_id = get_jwt_identity()
+
+    matching_tasks = Task.query.filter(Task.user_id == client_id).all()
+
+    serialized_tasks = tasks_schema.dump(matching_tasks)    
     return jsonify({"message": "Tasks retrieved successfully", "data": serialized_tasks}), 200
 
 
+@jwt_required()
+@authentication_required
 def get_task(id):
+    client_id = get_jwt_identity()
     task = Task.query.get(id)
-    
     if task is None:
         return jsonify({"message": f"Task with ID {id} not found"}), 404
+    
+    if task.user_id == client_id:
+        return jsonify({"message": "Task found", "data": task_schema.dump(task)}), 200
+    else:
+        return jsonify({"message": "Forbidden resource"}), 403
 
-    return jsonify({"message": "Task found", "data": task_schema.dump(task)}), 200
 
 
+
+@jwt_required()
+@authentication_required
 def update_task(id):
+    client_id = get_jwt_identity()
     try:
         task = Task.query.get(id)
         
         if task is None:
             return jsonify({"message": f"Task with ID {id} not found"}), 404
+        if client_id != task.user_id:
+            return jsonify({"message": "Forbidden Action"}), 403
 
         title = request.json.get('title')
         description = request.json.get('description')
@@ -79,9 +99,13 @@ def update_task(id):
         db.session.rollback()
         return jsonify({"message": "An error occurred while updating the task", "error": str(e)}), 500
 
-
+@jwt_required()
+@authentication_required
 def delete_task(id):
+    client_id = get_jwt_identity()
     task = Task.query.get(id)
+    if client_id != task.user_id:
+            return jsonify({"message": "Forbidden Action"}), 403
     if task:
         db.session.delete(task)
         db.session.commit()
