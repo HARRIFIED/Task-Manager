@@ -20,7 +20,6 @@ def login():
 
     user = User.query.filter_by(username=username).first()
     serialized_user = user_schema.dump(user) 
-    print(serialized_user['id'])
 
     # # Method to check if a given password is correct
     def check_password():

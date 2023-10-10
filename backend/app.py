@@ -4,6 +4,7 @@ from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from flask_bcrypt import Bcrypt
+from flask_cors import CORS
 
 from config import Config  # Import the Config class from config
 from Models.tasks import Task, task_schema
@@ -27,6 +28,8 @@ ma.init_app(app)
 migrate = Migrate(app, db)
 jwt = JWTManager(app)
 flask_bcrypt.init_app(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
+
 
 
 # Database initialization function
