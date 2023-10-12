@@ -20,6 +20,16 @@ def create_task():
         if not title:
             return jsonify({"message": "Title is required"}), 400
 
+        if not due_date:
+            return jsonify({"message": "Due date is required"}), 400
+        
+        if not description:
+            return jsonify({"message": "Description is required"}), 400
+
+        if not tags:
+            return jsonify({"message": "Task must have a tag or category"}), 400
+        
+
         new_task = Task(title=title, description=description, due_date=due_date, status=status, priority=priority, tags=tags, user_id=user_id)
         db.session.add(new_task)
         db.session.commit()
@@ -36,7 +46,7 @@ def get_tasks():
     # Get the user ID of the authenticated client
     client_id = get_jwt_identity()
 
-    matching_tasks = Task.query.filter(Task.user_id == client_id).all()
+    matching_tasks = Task.query.filter(Task.user_id == client_id).order_by(Task.created_at.desc()).all()
 
     serialized_tasks = tasks_schema.dump(matching_tasks)    
     return jsonify({"message": "Tasks retrieved successfully", "data": serialized_tasks}), 200
@@ -70,25 +80,14 @@ def update_task(id):
         if client_id != task.user_id:
             return jsonify({"message": "Forbidden Action"}), 403
 
-        title = request.json.get('title')
-        description = request.json.get('description')
+
         due_date = request.json.get('due_date')
         status = request.json.get('status')
-        priority = request.json.get('priority')
-        tags = request.json.get('tags')
 
-        if title is not None:
-            task.title = title
-        if description is not None:
-            task.description = description
         if due_date is not None:
             task.due_date = due_date
         if status is not None:
             task.status = status
-        if priority is not None:
-            task.priority = priority
-        if tags is not None:
-            task.tags = tags
 
         db.session.commit()
         return jsonify({

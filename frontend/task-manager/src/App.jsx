@@ -10,7 +10,6 @@ import { useSelector } from 'react-redux';
 
 const Navs = () => {
   const { currentUser } = useSelector(state => state.auth)
-  console.log("user", currentUser)
   if (!currentUser) {
     return (
       <Routes>

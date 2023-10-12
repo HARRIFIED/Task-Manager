@@ -14,7 +14,7 @@ def authentication_required(func):
             # Verify and decode the JWT token
             current_user = get_jwt_identity()
             if not current_user:
-                return jsonify({"message": "Invalid JWT token"}), 401
+                return jsonify({"message": "Unauthorized: Pleas login"}), 401
 
             # Continue to the route function if authentication is successful
             return func(*args, **kwargs)

@@ -26,7 +26,7 @@ class User(db.Model):
 # Task model 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), unique=True, nullable=False)
+    title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(300))
     due_date = db.Column(db.String)
     status = db.Column(db.String(20), default='NOT STARTED')

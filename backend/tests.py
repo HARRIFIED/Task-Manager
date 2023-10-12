@@ -1,49 +1,45 @@
 import unittest
 from flask import Flask, jsonify
 from Controller.tasks import create_task
-from Models.tasks import Task, db
+from Models.tasks import Task, User
 from config import Config
+from app import app, db, initialize_database
 
 class TestTaskController(unittest.TestCase):
     def setUp(self):
         # Create a test Flask app
-        self.app = Flask(__name__)
-        self.app.config['TESTING'] = True
-        # self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'  # Use a test database
-        self.app.config.from_object(Config)
-        db.init_app(self.app)
+        app.config['TESTING'] = True
+        # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'  # Use a test database
+        app.config.from_object(Config)
 
-        with self.app.app_context():
-            db.create_all()
+        initialize_database()
 
-        self.client = self.app.test_client()
+        self.client = app.test_client()
 
     def tearDown(self):
-        with self.app.app_context():
+        with app.app_context():
             db.drop_all()
 
-    def test_create_task(self):
+    def test_login(self):
         # Define a test task data
-        task_data = {
-            'title': 'Test Task',
-            'description': 'This is a test task',
-            'due_date': '2023-12-31'
+        user_data = {
+            "username": "Harrified$$",
+            "password": "10042001Harri$$"
         }
 
         # Send a POST request to create the task
-        response = self.client.post('/api/add_task', json=task_data)
+        response = self.client.post('/api/login', json=user_data)
         print(response)
 
         # Check the response status code
         self.assertEqual(response.status_code, 200)
 
         # Check if the task was created in the database
-        with self.app.app_context():
-            task = Task.query.first()
-            self.assertIsNotNone(task)
-            self.assertEqual(task.title, task_data['title'])
-            self.assertEqual(task.description, task_data['description'])
-            self.assertEqual(str(task.due_date), task_data['due_date'])
+        with app.app_context():
+            user= User.query.first()
+            self.assertIsNotNone(user)
+            self.assertEqual(user.username, user_data['username'])
+            self.assertEqual(task.password, user_data['password'])
     
     # def test_create_task_invalid_data(self):
     #     # Send a POST request with invalid data (mi`ssing 'title' field)
@@ -52,7 +48,7 @@ class TestTaskController(unittest.TestCase):
     #         "due_date": "2023-10-15"
     #     }
 
-    #     response = self.app.post('/api/add_task', json=invalid_task_data)
+    #     response = app.post('/api/add_task', json=invalid_task_data)
     #     self.assertEqual(response.status_code, 400)
 
 if __name__ == '__main__':
