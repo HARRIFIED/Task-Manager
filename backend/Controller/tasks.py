@@ -109,7 +109,7 @@ def delete_task(id):
         db.session.delete(task)
         db.session.commit()
         response_data = {
-            "message": f"Task with title '{task.title}' successfully deleted",
+            "message": f"Task successfully deleted",
             "data": None  
         }
         return jsonify(response_data), 200

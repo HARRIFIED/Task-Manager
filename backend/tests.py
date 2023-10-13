@@ -27,7 +27,7 @@ class TestTaskController(unittest.TestCase):
             "password": "10042001Harri$$"
         }
 
-        # Send a POST request to create the task
+        # Send a POST request to login
         response = self.client.post('/api/login', json=user_data)
         print(response)
 
@@ -39,7 +39,7 @@ class TestTaskController(unittest.TestCase):
             user= User.query.first()
             self.assertIsNotNone(user)
             self.assertEqual(user.username, user_data['username'])
-            self.assertEqual(task.password, user_data['password'])
+            self.assertEqual(user.password, user_data['password'])
     
     # def test_create_task_invalid_data(self):
     #     # Send a POST request with invalid data (mi`ssing 'title' field)
