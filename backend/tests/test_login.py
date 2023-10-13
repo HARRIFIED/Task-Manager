@@ -25,7 +25,6 @@ def test_login(client, test_app):
     # Assert the response status code
     assert response.status_code == 200
 
-    # Optionally, you can assert the response data, e.g., the access_token and user data
     data = response.get_json()
     assert 'access_token' in data
     assert 'data' in data

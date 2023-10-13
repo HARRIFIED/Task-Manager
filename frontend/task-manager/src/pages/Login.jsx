@@ -13,7 +13,7 @@ function Login() {
     });
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
-    console.log(loading, error)
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;

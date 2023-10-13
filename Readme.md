@@ -24,7 +24,11 @@ $ pipenv install
 
 # Run Server (http://localhst:5000)
 python app.py
+
+# Run test
+pytest
 ```
+
 
 ## Endpoints
 
@@ -33,5 +37,6 @@ python app.py
 * POST    /api/add_task
 * PUT     /api/update_task/:id
 * DELETE  /api/delete_task/:id
-
+* POST    /api/login
+* POST    /api/register
 # Client with React and Vite
