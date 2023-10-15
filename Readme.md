@@ -25,7 +25,7 @@ $ pipenv install
 # Run Server (http://localhst:5000)
 python app.py
 
-# Run test
+# Run tests
 pytest
 ```
 
@@ -59,6 +59,6 @@ $ npm install
 # Run Server (http://localhost:5173)
 npm run dev
 
-# Run test
+# Run tests
 npm test
 ```
