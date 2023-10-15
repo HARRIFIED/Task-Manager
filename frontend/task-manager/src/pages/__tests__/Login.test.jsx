@@ -26,8 +26,6 @@ describe('Login Component', () => {
             // expect(screen.queryByText('Login successful')).toBeInTheDocument();
             expect(screen.queryByText('Login failed')).toBeNull();
         });
-
-        // Add assertions to test other parts of your component's behavior
     });
 
     it('handles API error with invalid credentials', async () => {
