@@ -46,7 +46,7 @@ pytest
 
 
 ``` bash
-
+Open another terminal 
 ``` bash
 # enter the frontend directory
 $ cd frontend/task-manager
