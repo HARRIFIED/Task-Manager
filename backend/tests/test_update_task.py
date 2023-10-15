@@ -27,4 +27,4 @@ def test_update_tasks(client, test_app):
     assert response.status_code == 200
 
     data = response.get_json()
-    assert data['message'] == f"Task with ID {task_id} updated successfully"
+    assert data['message'] == f"Task with updated successfully"

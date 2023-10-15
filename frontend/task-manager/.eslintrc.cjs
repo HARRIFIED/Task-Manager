@@ -6,6 +6,7 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
+    "react-app", "react-app/jest"
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
@@ -18,3 +19,7 @@ module.exports = {
     ],
   },
 }
+
+// module.exports = {
+//   extends: ["react-app", "react-app/jest"],
+// };

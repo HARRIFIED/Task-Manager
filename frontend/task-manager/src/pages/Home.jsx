@@ -9,15 +9,12 @@ import { logoutAction } from '../redux/authSlice'
 function Home() {
   const {
     currentUser,
-    setNewTask,
-    setTasks,
     logout,
     tasks,
     openTaskModal,
     editSelectedTask,
     deleteTask,
     isAddModalOpen,
-    openAddModal,
     isDeleteModalOpen,
     isEditModalOpen,
     openEditmodal,
@@ -30,14 +27,12 @@ function Home() {
     description,
     dueDate,
     tags,
-    priority,
     status,
     setDescription,
     setTags,
     setTitle,
     setDueDate,
     setStatus,
-    setPriority,
     setTaskId,
     loading,
     editLoading,
@@ -75,7 +70,7 @@ function Home() {
         </div>
         {loading && (<p>Loading...</p>)}
         <ul>
-          {tasks.map((task) => (
+          {tasks && tasks.map((task) => (
             <li key={task.id} className="mb-4 p-4 border rounded-lg">
               <div className="flex justify-between items-center">
                 <li className="bg-white p-4 rounded shadow-md">
@@ -164,11 +159,12 @@ function Home() {
             />
           </div>
           <div className="mb-4">
-            <label className="block font-semibold">Due Date</label>
+            <label htmlFor="Due Date" className="block font-semibold">Due Date</label>
             <input
               type="date"
               className="w-full px-2 py-1 border rounded-lg outline-none"
               value={dueDate}
+              placeholder="mm/dd/yyy"
               onChange={(e) => setDueDate(e.target.value)}
             />
           </div>
@@ -238,31 +234,31 @@ function Home() {
         </Modal>
       )}
 
-        <Modal
-          isOpen={isDeleteModalOpen}
-          onRequestClose={closeDeleteModal}
-          contentLabel="Delete Confirmation Modal"
-          className="fixed inset-0 flex items-center justify-center z-50"
-          // overlayClassName="modal-overlay"
-        >
-          <div>
-            <h2 className=" block font-semibold">Delete Confirmation</h2>
-            <p className="mb-4 block font-semibold">Are you sure you want to delete this task?</p>
-            
-            <button 
-              onClick={deleteTask} 
-              className="bg-red-500 text-white p-2 rounded-md mr-4"
-            >
-              {deleteLoading ? "Loading" : "Delete"}
-            </button>
-            <button 
-              onClick={closeDeleteModal} 
-              className="bg-gray-400 text-gray-700 p-2 rounded-md"
-            >
-              Cancel
-            </button>
-          </div>
-        </Modal>
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onRequestClose={closeDeleteModal}
+        contentLabel="Delete Confirmation Modal"
+        className="fixed inset-0 flex items-center justify-center z-50"
+      // overlayClassName="modal-overlay"
+      >
+        <div>
+          <h2 className=" block font-semibold">Delete Confirmation</h2>
+          <p className="mb-4 block font-semibold">Are you sure you want to delete this task?</p>
+
+          <button
+            onClick={deleteTask}
+            className="bg-red-500 text-white p-2 rounded-md mr-4"
+          >
+            {deleteLoading ? "Loading" : "Delete"}
+          </button>
+          <button
+            onClick={closeDeleteModal}
+            className="bg-gray-400 text-gray-700 p-2 rounded-md"
+          >
+            Cancel
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }
@@ -286,7 +282,7 @@ const useTaskHook = () => {
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-  
+
   const logout = () => {
     dispatch(logoutAction())
   }
@@ -323,10 +319,10 @@ const useTaskHook = () => {
         setLoading(false)
         alert(error.message)
         if (error.response.msg == "Token has expired") {
-          alert("Session has ended. Login to continue")  
+          alert("Session has ended. Login to continue")
           logout()
         }
-        alert(error.response.data.message || error.response.data.msg )
+        alert(error.response.data.message || error.response.data.msg)
       });
   }
 
@@ -350,16 +346,17 @@ const useTaskHook = () => {
           setTasks([...tasks, response.data]);
         }
         setAddModalOpen(false);
+        window.alert("Task created successfully");
         getTask()
       })
       .catch(error => {
         setCLoading(false)
         alert(error.message)
         if (error.response.msg == "Token has expired") {
-          alert("Session has ended. Login to continue")  
+          alert("Session has ended. Login to continue")
           logout()
         }
-        alert(error.response.data.message || error.response.data.msg )
+        alert(error.response.data.message || error.response.data.msg)
       });
   }
 
@@ -383,11 +380,11 @@ const useTaskHook = () => {
           setELoading(false)
           alert(error.message)
           if (error.response && error.response.msg == "Token has expired") {
-            alert("Session has ended. Login to continue")  
+            alert("Session has ended. Login to continue")
             logout()
           }
           if (error.response.data && error.response.data.message) {
-            alert(error.response.data.message || error.response.data.msg )
+            alert(error.response.data.message || error.response.data.msg)
           }
         });
     }
@@ -408,10 +405,10 @@ const useTaskHook = () => {
           setDLoading(false)
           alert(error.message)
           if (error.response.msg == "Token has expired") {
-            alert("Session has ended. Login to continue")  
+            alert("Session has ended. Login to continue")
             logout()
           }
-          alert(error.response.data.message || error.response.data.msg )
+          alert(error.response.data.message || error.response.data.msg)
         });
     }
   };
@@ -449,7 +446,7 @@ const useTaskHook = () => {
   return {
     currentUser,
     setNewTask,
-    setTasks,    
+    setTasks,
     tasks,
     newTask,
     openTaskModal,
@@ -481,7 +478,7 @@ const useTaskHook = () => {
     editLoading,
     createLoading,
     deleteLoading,
-    taskId, 
+    taskId,
     setTaskId,
     editDueDate,
     editStatus,

@@ -38,8 +38,6 @@ function Signup() {
             setLoading(false)
             if (error.response) {
                 setError(error.response.data.message)
-                console.error('Login failed with status code:', error.response.status);
-                console.error('Error data:', error.response.data);
             } else if (error.request) {
                 // The request was made, but no response was received.
                 setError(error.request.message)

@@ -91,7 +91,7 @@ def update_task(id):
 
         db.session.commit()
         return jsonify({
-            "message": f"Task with ID {id} updated successfully", 
+            "message": f"Task with updated successfully", 
             "data": task_schema.dump(task)
             }), 200
     except Exception as e:

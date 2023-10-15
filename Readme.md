@@ -39,4 +39,26 @@ pytest
 * DELETE  /api/delete_task/:id
 * POST    /api/login
 * POST    /api/register
+
 # Client with React and Vite
+
+## Quick Start
+
+
+``` bash
+
+``` bash
+# enter the frontend directory
+$ cd frontend/task-manager
+
+
+``` bash
+# Activate venv
+$ npm install
+
+# Run Server (http://localhost:5173)
+npm run dev
+
+# Run test
+npm test
+```
