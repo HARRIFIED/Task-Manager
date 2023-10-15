@@ -53,7 +53,7 @@ $ cd frontend/task-manager
 
 
 ``` bash
-# Activate venv
+# Install dependencies
 $ npm install
 
 # Run Server (http://localhost:5173)
