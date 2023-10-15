@@ -89,6 +89,13 @@ def update_task(id):
         if status is not None:
             task.status = status
 
+
+        if not due_date:
+            return jsonify({"message": "Due date is required"}), 400
+
+        if not status:
+            return jsonify({"message": "Status is required"}), 400
+
         db.session.commit()
         return jsonify({
             "message": f"Task with updated successfully", 

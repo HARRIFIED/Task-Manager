@@ -32,6 +32,11 @@ function Signup() {
             if (response.data) {
                 console.log("success", response.data)
                 setLoading(false)
+                setFormData({
+                    username: "",
+                    email: "",
+                    password: "",
+                })
             }
             window.alert("Signup successful please proceed to login");
         } catch (error) {

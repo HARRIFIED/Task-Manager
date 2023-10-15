@@ -209,7 +209,7 @@ function Home() {
             <div className="mb-4">
               <label className="block font-semibold">Due Date</label>
               <input
-                type="text"
+                type="date"
                 placeholder="Due Date"
                 className="w-full px-2 py-1 border rounded-lg outline-none"
                 value={editDueDate}
