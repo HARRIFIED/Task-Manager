@@ -1,4 +1,4 @@
-# REST API With Flask & SQL Alchemy# Task Manager
+# Task Manager Application using Flask & React/Vite
 
 Task Manager is a web application that allows users to efficiently manage their tasks. With this tool, users can add, delete, and update tasks. Additionally, tasks can be assigned priorities to help users stay organized. The application also includes an authentication system, ensuring that only authorized users can access and manage their tasks.
 
@@ -11,9 +11,10 @@ Task Manager is a web application that allows users to efficiently manage their 
 
 ## Setup
 
+###Backend 
 > Task management API using Python Flask, SQL Alchemy and Marshmallow
 
-## Quick Start Using Pipenv
+##### Quick Start Using Pipenv
 
 
 ``` bash
@@ -41,7 +42,7 @@ pytest
 ```
 
 
-## Endpoints
+#### Endpoints
 
 * GET     /api/tasks
 * GET     /api/task/:id
@@ -51,9 +52,9 @@ pytest
 * POST    /api/login
 * POST    /api/register
 
-# Client with React and Vite
+#### Client with React and Vite
 
-## Quick Start
+#### Quick Start
 
 
 ``` bash
