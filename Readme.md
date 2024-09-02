@@ -1,4 +1,15 @@
-# REST API With Flask & SQL Alchemy
+# REST API With Flask & SQL Alchemy# Task Manager
+
+Task Manager is a web application that allows users to efficiently manage their tasks. With this tool, users can add, delete, and update tasks. Additionally, tasks can be assigned priorities to help users stay organized. The application also includes an authentication system, ensuring that only authorized users can access and manage their tasks.
+
+## Features
+
+- **Task Management:** Add, update, and delete tasks.
+- **Prioritization:** Assign priority levels to tasks.
+- **Authentication:** Secure user login and registration.
+- **Responsive Design:** Works across various devices.
+
+## Setup
 
 > Task management API using Python Flask, SQL Alchemy and Marshmallow
 
